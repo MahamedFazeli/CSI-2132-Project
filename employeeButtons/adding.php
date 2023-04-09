@@ -77,9 +77,6 @@
                 margin-top: 10px;
                 margin-right: 5px;
             }
-            .forms{
-                margin-left:75px;
-            }
             .submit{
                 background-color: lightskyblue;
                 color: black;
