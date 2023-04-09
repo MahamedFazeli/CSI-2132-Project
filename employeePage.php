@@ -35,12 +35,12 @@ include("functions.php");
 <body>
     <div class="content">
         <h1 class="title">E-Hotels Employee Page</h1><br><br>
-        <button class="btn"><a class ="link" href="adding.php">Add Hotel/Room</button>
-        <button class="btn"><a class ="link" href="removing.php">Remove Hotel/Room</button>
-        <button class="btn"><a class ="link" href="modifying.php">Modify Hotel/Room</button><br><br>
+        <button class="btn"><a class ="link" href="employeeButtons/adding.php">Add Hotel/Room</button>
+        <button class="btn"><a class ="link" href="employeeButtons/removing.php">Remove Hotel/Room</button>
+        <button class="btn"><a class ="link" href="employeeButtons/modifying.php">Modify Hotel/Room</button><br><br>
 
-        <button class="btn"><a class ="link" href="customerBooking.php">Customer Booking</button>
-        <button class="btn"><a class ="link" href="customerRenting.php">Customer Renting</button>
+        <button class="btn"><a class ="link" href="employeeButtons/customerBooking.php">Customer Booking</button>
+        <button class="btn"><a class ="link" href="employeeButtons/customerRenting.php">Customer Renting</button>
     </div>
 </body>
 </html>
