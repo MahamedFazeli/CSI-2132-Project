@@ -28,7 +28,8 @@
     <div class="content">
         <h1 class = "title">You succesfully updated the database!</h1>
         <button class="btn"><a class ="link" href="adding.php">Add another Hotel/Room</button>
-        <button class="btn"><a class ="link" href="C:\xampp\htdocs\CSI-2132-Project\employeePage.php">Employee Page</button>
+        <button class="btn"><a class ="link" href="employeePage.php">Employee Page</button>
+        
     </div>
         
     </body>

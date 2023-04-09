@@ -1,8 +1,8 @@
 <?php
     session_start();
 
-    include("C:/xampp/htdocs/CSI-2132-Project/connection.php");
-    include("C:/xampp/htdocs/CSI-2132-Project/functions.php");
+    include("connection.php");
+    include("functions.php");
     if($_SERVER['REQUEST_METHOD'] == "POST"){
         //something was posted
 
@@ -36,7 +36,7 @@
                 $query = "insert into room (room_ID, amenities, Price, Capacity, view_type, can_be_extended, defects, hotel_ID) values ('$room_ID', '$amenities', '$price', '$capacity', '$view_type', '$can_be_extended', '$defects', '$hotel_ID2')";
                 mysqli_query($con, $query);
 
-                header("Location: successPage.html");
+                header("Location: successPage.php");
                 die;
             }
 
@@ -47,7 +47,7 @@
             }else{
                 $query = "insert into hotel (hotel_ID, rating, number_of_rooms, address, email, phone_number, chain_ID, manager_ID) values ('$hotel_ID', '$rating', '$number_of_rooms', '$address', '$email', '$phone_number', '$chain_ID', '$manager_ID')";
                 mysqli_query($con, $query);
-                header("Location: successPage.html");
+                header("Location: successPage.php");
                 die;
             }
                 
