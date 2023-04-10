@@ -30,6 +30,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hotel = $_POST['hotel'];
     $query .= " AND hotel_ID = '$hotel'";
   }
+  if (!empty($_POST['room'])) {
+    $room = $_POST['room'];
+    $query .= " AND room_ID = '$room'";
+  }
+  if (isset($_POST['room_id'])) {
+    $room_id = $_POST['room_id'];
+    $user_id = $user_data['user_id'];
+    $booking_query = "INSERT INTO booking (user_id, room_id) VALUES ('$user_id', '$room_id')";
+    mysqli_query($con, $booking_query);
+    echo "<p>Room booked!</p>";
+  }
 
   // Execute the query
   $result = mysqli_query($con, $query);
@@ -39,9 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "<p>No results found.</p>";
   } else {
     echo "<table>";
-    echo "</th><th>Hotel ID</th><th>Capacity</th><th>Price</th></tr>";
+    echo "<tr><th>Hotel ID</th><th>Room number</th><th>Capacity</th><th>Price</th><th>Book</th></tr>";
     while ($row = mysqli_fetch_assoc($result)) {
-      echo "</td><td>" . $row['hotel_ID'] . "</td><td>" . $row['Capacity'] . "</td><td>" . $row['Price'] . "</td></tr>";
+      echo "<tr><td>" . $row['hotel_ID'] . "</td><td>" . $row['room_ID'] . "</td><td>" . $row['Capacity'] . "</td><td>" . $row['Price'] . "</td><td><form method='POST'><input type='hidden' name='room_id' value='" . $row['room_ID'] . "'><button type='submit'>Book</button></form></td></tr>";
     }
     echo "</table>";
   }
