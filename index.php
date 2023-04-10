@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>E-Hotels</h1>
 
     <br>
-    Hello, <?php echo $user_data['user_name']; ?>
+    <h1>Hello, <?php echo $user_data['user_name']; ?></h1>
 
     <form method="POST" id="search-form">
         <label for="capacity">Room capacity:</label>
