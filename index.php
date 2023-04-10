@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   if (isset($_POST['room_id'])) {
     $room_id = $_POST['room_id'];
-    $user_id = $user_data['user_id'];
-    $booking_query = "INSERT INTO booking (user_id, room_id) VALUES ('$user_id', '$room_id')";
+    $booking_ID = $user_data['booking_ID'];
+    $booking_query = "INSERT INTO booking (booking_ID, room_id) VALUES ('$booking_ID', '$room_id')";
     mysqli_query($con, $booking_query);
     echo "<p>Room booked!</p>";
   }
