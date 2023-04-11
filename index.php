@@ -6,57 +6,7 @@ include("functions.php");
 
 $user_data = check_login($con);
 
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Build the SQL query based on selected search criteria
-  $query = "SELECT * FROM room WHERE 1=1"; // Start with a true condition to make subsequent conditions easier to append
-  if (!empty($_POST['capacity'])) {
-    $capacity = $_POST['capacity'];
-    $query .= " AND capacity >= $capacity";
-  }
-  if (!empty($_POST['price'])) {
-    $price = $_POST['price'];
-    $query .= " AND price <= $price";
-  }
-   if (!empty($_POST['number_of_rooms'])) {
-    $num_rooms = $_POST['num-rooms'];
-    $query .= " AND hotel_ID IN (SELECT hotel_ID FROM hotel WHERE number_of_rooms <= $num_rooms)";
-  }
-  if (!empty($_POST['hotel-chain'])) {
-    $hotel_chain = $_POST['hotel-chain'];
-    $query .= " AND hotel_ID IN (SELECT hotel_id FROM hotel WHERE Chain_ID = '$hotel_chain')";
-  }
-   if (!empty($_POST['hotel'])) {
-    $hotel = $_POST['hotel'];
-    $query .= " AND hotel_ID = '$hotel'";
-  }
-  if (!empty($_POST['room'])) {
-    $room = $_POST['room'];
-    $query .= " AND room_ID = '$room'";
-  }
-  if (isset($_POST['room_id'])) {
-    $room_id = $_POST['room_id'];
-    $booking_ID = $user_data['booking_ID'];
-    $booking_query = "INSERT INTO booking (booking_ID, room_id) VALUES ('$booking_ID', '$room_id')";
-    mysqli_query($con, $booking_query);
-    echo "<p>Room booked!</p>";
-  }
 
-  // Execute the query
-  $result = mysqli_query($con, $query);
-
-  // Process the results
-  if (!$result || mysqli_num_rows($result) === 0) {
-    echo "<p>No results found.</p>";
-  } else {
-    echo "<table>";
-    echo "<tr><th>Hotel ID</th><th>Room number</th><th>Capacity</th><th>Price</th><th>Book</th></tr>";
-    while ($row = mysqli_fetch_assoc($result)) {
-      echo "<tr><td>" . $row['hotel_ID'] . "</td><td>" . $row['room_ID'] . "</td><td>" . $row['Capacity'] . "</td><td>" . $row['Price'] . "</td><td><form method='POST'><input type='hidden' name='room_id' value='" . $row['room_ID'] . "'><button type='submit'>Book</button></form></td></tr>";
-    }
-    echo "</table>";
-  }
-}
 ?>
 
 
@@ -111,9 +61,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="hotel7">Hotel 7</option>
             <option value="hotel8">Hotel 8</option>
         </select>
-
+        <label for="duration_of_stay">Duration of Stay (in days):</label>
+        <input type="number" id="duration_of_stay" name="duration_of_stay" min="1">
         <button type="submit">Search</button>
     </form>
+<?php
 
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Build the SQL query based on selected search criteria
+  $query = "SELECT * FROM room WHERE 1=1"; // Start with a true condition to make subsequent conditions easier to append
+  if (!empty($_POST['capacity'])) {
+    $capacity = $_POST['capacity'];
+    $query .= " AND capacity >= $capacity";
+  }
+  if (!empty($_POST['price'])) {
+    $price = $_POST['price'];
+    $query .= " AND price <= $price";
+  }
+   if (!empty($_POST['number_of_rooms'])) {
+    $num_rooms = $_POST['num-rooms'];
+    $query .= " AND hotel_ID IN (SELECT hotel_ID FROM hotel WHERE number_of_rooms <= $num_rooms)";
+  }
+  if (!empty($_POST['hotel-chain'])) {
+    $hotel_chain = $_POST['hotel-chain'];
+    $query .= " AND hotel_ID IN (SELECT hotel_ID FROM hotel WHERE Chain_ID = '$hotel_chain')";
+  }
+   if (!empty($_POST['hotel'])) {
+    $hotel = $_POST['hotel'];
+    $query .= " AND hotel_ID = '$hotel'";
+  }
+  if (!empty($_POST['room'])) {
+    $room = $_POST['room'];
+    $query .= " AND room_ID = '$room'";
+  }
+  if (isset($_POST['room_id'])) {
+    $room_id = $_POST['room_id'];
+    $booking_ID = $user_data['booking_ID'];
+    $duration_of_stay = $_POST['duration_of_stay']; // Get the duration of stay from the form
+    $booking_query = "INSERT INTO booking (booking_ID, room_id, duration_of_stay, user_id) VALUES ('$booking_ID', '$room_id', '$duration_of_stay', '$user_id')"; // Add duration_of_stay to the query
+    mysqli_query($con, $booking_query);
+    echo "<p>Room booked!</p>";
+}
+
+  // Execute the query
+  $result = mysqli_query($con, $query);
+
+  // Process the results
+  if (!$result || mysqli_num_rows($result) === 0) {
+    echo "<p>No results found.</p>";
+  } else {
+    echo "<table>";
+    echo "<tr><th>Hotel ID</th><th>Room number</th><th>Capacity</th><th>Price</th><th>Book</th></tr>";
+    while ($row = mysqli_fetch_assoc($result)) {
+      echo "<tr><td>" . $row['hotel_ID'] . "</td><td>" . $row['room_ID'] . "</td><td>" . $row['Capacity'] . "</td><td>" . $row['Price'] . "</td><td><form method='POST'><input type='hidden' name='room_id' value='" . $row['room_ID'] . "'><button type='submit'>Book</button></form></td></tr>";
+    }
+    echo "</table>";
+  }
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['room_id']) && isset($_POST['booking_ID']) && isset($_POST['duration_of_stay']) && isset($_POST['user_id'])) {
+  $room_id = $_POST['room_id'];
+  $booking_ID = $_POST['booking_ID'];
+  $duration_of_stay = $_POST['duration_of_stay'];
+  $user_id = $_POST['user_id'];
+
+  // Insert booking details into booking table
+  $booking_query = "INSERT INTO booking (booking_ID, duration_of_stay, room_id, user_id) VALUES ('$booking_ID', '$duration_of_stay', '$room_id', '$user_id')";
+  mysqli_query($con, $booking_query);
+  echo "<p>Room booked!</p>";
+}
+?>
 </body>
 </html>
