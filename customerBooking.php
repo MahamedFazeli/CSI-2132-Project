@@ -5,20 +5,26 @@
     include("functions.php");
     if($_SERVER['REQUEST_METHOD'] == "POST"){
         //something was posted
-
+        $renting_ID = $_POST['renting_ID'];
+        $checkInDate = $_POST['check_in_date'];
+        $price = $_POST['price'];
+        $durationOfRent = $_POST['duration_of_rent'];
+        $room_ID = $_POST['room_ID'];
+        $payment_ID = $_POST['payment_ID'];
         $booking_ID = $_POST['booking_ID'];
-        
+        $hotel_ID = $_POST['hotel_ID'];
 
-        if(!empty($booking_ID)){
-        
-                $query = "select * from booking where (booking_ID = '$booking_ID')";
-                $result = mysqli_query($con, $query);
-                $row = mysqli_fetch_array($result);
-
-                
-            
+        if(empty($renting_ID) || empty($checkInDate) || empty($durationOfRent) || empty($room_ID) || empty($payment_ID) || empty($booking_ID) || empty($hotel_ID)){
+            echo("Please don't leave anything blank!!!");
         }else{
-            echo "Please enter a booking ID.";
+            $query = "insert into renting (renting_ID , check_in_date, price, duration_of_rent, room_ID, payment_ID, booking_ID, hotel_ID) values ('$renting_ID','$checkInDate', '$price', '$durationOfRent', '$room_ID', '$payment_ID','$booking_ID', '$hotel_ID')";
+            mysqli_query($con, $query);
+
+            $query2 = "delete from booking where booking_ID = ('$booking_ID')";
+            mysqli_query($con, $query2);
+
+            Header("Location: successPage.php");
+            die;
         }
     }
 
@@ -39,8 +45,9 @@
             .firstForm{
                 float: left;
             }
-            .secondForm{
-                float: right;
+            .link{
+                text-decoration: none;
+                color: black;
             }
         </style>
 
@@ -54,42 +61,22 @@
                 <form class="forms" method="post">
                     <input class="box" id="text" type="text" name="booking_ID" placeholder="Booking ID">
                     <input class="submit" id="button" type="submit" value="Submit"><br><br>
-                    <?php
-                        echo "Booking Info:"; 
-                        print "<pre>";
-                        print_r("Booking ID: ".$row['booking_ID']);
-                        print_r(", Booking Date: ".$row['booking_date']);
-                        print_r(", Duration of Stay: ".$row['duration_of_stay']);
-                        print_r(", Room ID: ".$row['room_ID']);
-                        print_r(", Employee SSN: ".$row['employee_SSN']);
-                        print_r(", Customer SSN: ".$row['customer_SSN']);
-                        print_r(", Hotel ID: ".$row['hotel_ID']);
-                        print "</pre>"; 
-                    ?>
             </div>
 
             <div class="firstForm">
                 <h1>Renting Info</h1>
                 <form class="forms" method="post">
-                    Booking_ID:<input class="box" id="text" type="text" name="booking_ID" placeholder="Booking ID"><br><br>
-                    Booking Date:<input class="box" id="text" type="text" name="booking_date" placeholder="Booking Date"><br><br>
-                    Duration of Stay:<input class="box" id="text" type="text" name="duration_of_stay" placeholder="Duration of Stay"><br><br>
-                    Room ID:<input class="box" id="text" type="text" name="room_ID" placeholder="room_ID"><br><br>
-                    Employee SSN:<input class="box" id="text" type="text" name="employee_SSN" placeholder="employee_SSN"><br><br>
-                    Customer SSN:<input class="box" id="text" type="text" name="customer_SSN" placeholder="customer_SSN"><br><br>
+                    Renting ID:<input class="box" id="text" type="text" name="renting_ID" placeholder="Renting ID"><br><br>
+                    Check in Date:<input class="box" id="text" type="text" name="check_in_date" placeholder="Check in Date"><br><br>
+                    Price:<input class="box" id="text" type="text" name="price" placeholder="Price"><br><br>
+                    Duration:<input class="box" id="text" type="text" name="duration_of_rent" placeholder="Duration"><br><br>
+                    Room ID:<input class="box" id="text" type="text" name="room_ID" placeholder="Room ID"><br><br>
+                    Payment ID:<input class="box" id="text" type="text" name="payment_ID" placeholder="Payment ID">
+                    <button><a class="link" href="customerPayment.php">Customer Payment Info</a></button><br><br>
+                    Booking ID:<input class="box" id="text" type="text" name="booking_ID" placeholder="Booking ID"><br><br>
                     Hotel ID:<input class="box" id="text" type="text" name="hotel_ID" placeholder="Hotel ID"><br><br>
                     <input class="submit" id="button" type="submit" value="Submit">
+                </form>
             </div>
-            <div class="secondForm">
-                <h1>Payment Info</h1>
-                <form class="forms" method="post">
-                    Payment ID:<input class="box" id="text" type="text" name="booking_ID" placeholder="Booking ID"><br><br>
-                    Card Number:<input class="box" id="text" type="text" name="card_number" placeholder="Card Number"><br><br>
-                    Card Name:<input class="box" id="text" type="text" name="card_name" placeholder="Card Name"><br><br>
-                    CVV:<input class="box" id="text" type="text" name="CVV" placeholder="CVV"><br><br>
-                    Customer SSN:<input class="box" id="text" type="text" name="customer_ssn" placeholder="Customer SSN"><br><br>
-                    <input class="submit" id="button" type="submit" value="Submit">
-            </div>
-
     </body>
 </html>
