@@ -36,8 +36,7 @@ include("functions.php");
     <div class="content">
         <h1 class="title">E-Hotels Employee Page</h1><br><br>
         <button class="btn"><a class ="link" href="adding.php">Add Hotel/Room</button>
-        <button class="btn"><a class ="link" href="removing.php">Remove Hotel/Room</button>
-        <button class="btn"><a class ="link" href="modifying.php">Modify Hotel/Room</button><br><br>
+        <button class="btn"><a class ="link" href="removing.php">Remove Hotel/Room</button><br><br>
 
         <button class="btn"><a class ="link" href="customerBooking.php">Customer Booking</button>
         <button class="btn"><a class ="link" href="customerRenting.php">Customer Renting</button>
